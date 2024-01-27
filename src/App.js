@@ -1,9 +1,10 @@
-import './App.css';
-import React, { Component } from 'react';
+import './App.css'
+import React, { Component } from 'react'
+import Button from './API/Button'
 
 class App extends Component {
 	constructor() {
-		super();
+		super()
 		this.state = {
 			player: 1,
 			table: ['','','','','','','','',''],
@@ -12,6 +13,7 @@ class App extends Component {
 		this.action = this.action.bind(this)
 		this.winCheck = this.winCheck.bind(this)
 		this.reload = this.reload.bind(this)
+		this.localPing = this.localPing.bind(this)
 	}
 
 
@@ -23,14 +25,14 @@ class App extends Component {
 			this.setState({ 
 				player: 2,
 				table: tempTable
-			});
+			})
 			this.winCheck(1)
 		} else if (this.state.winner === 0) {
 			tempTable[props] = 'O'
 			this.setState({ 
 				player: 1,
 				table: tempTable
-			});
+			})
 			this.winCheck(2)
 		}
 	}
@@ -70,6 +72,15 @@ class App extends Component {
 		window.location.reload(false)
 	}
 
+	async localPing() {
+		const buttonInstance = new Button()
+		buttonInstance.ping().then(response => {
+			console.log(response)
+		}).catch(error => {
+			console.log('error')
+		});
+	}
+
 	render() {
 		// console.log(this.state.player)
 		return (
@@ -90,9 +101,11 @@ class App extends Component {
 				</table>
 				<br />
 				<button onClick={() => this.reload()}>Restart</button>
+				<br />
+				<button onClick={() => this.localPing()}>Ping</button>
 			</div>
-		);
+		)
 	}
 }
 
-export default App;
+export default App
